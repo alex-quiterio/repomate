@@ -1,5 +1,6 @@
 # shell/fish/repomate.fish
-function repomate command repomate $argv
+function repomate
+  ruby ~/.local/bin/repomate.rb $argv
 end
 
 # Add completions for the commands
