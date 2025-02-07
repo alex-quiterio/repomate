@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+# bin/repomate
+
+require 'repomate/cli'
+
+Repomate::CLI.start
