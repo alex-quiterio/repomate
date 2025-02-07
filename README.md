@@ -1,4 +1,4 @@
-# Repository Sync Tool
+# RepoMate 🧉
 
 A command-line tool to manage and synchronize multiple git repositories. This tool helps you maintain a list of git repositories and keep them up to date with their remote sources.
 
@@ -13,17 +13,17 @@ A command-line tool to manage and synchronize multiple git repositories. This to
 ## Installation
 
 1. Ensure you have Ruby installed on your system
-2. Copy `sync-repos.rb` to `~/.local/bin/`:
+2. Copy `repomate.rb` to `~/.local/bin/`:
 ```bash
 mkdir -p ~/.local/bin
-cp sync-repos.rb ~/.local/bin/
-chmod +x ~/.local/bin/sync-repos.rb
+cp repomate.rb ~/.local/bin/
+chmod +x ~/.local/bin/repomate.rb
 ```
 
 3. Add the fish function to your fish config:
 ```bash
 mkdir -p ~/.config/fish/functions
-cp sync-repos.fish ~/.config/fish/functions/
+cp repomate.fish ~/.config/fish/functions/
 ```
 
 ## Usage
@@ -34,16 +34,16 @@ The tool can be used either directly through Ruby or via the fish shell function
 
 ```bash
 # Sync all repositories
-sync-repos sync
+repomate sync
 
 # Add a repository to the sync list
-sync-repos add https://github.com/user/repo.git
+repomate add https://github.com/user/repo.git
 
 # Remove a repository from the sync list
-sync-repos remove https://github.com/user/repo.git
+repomate remove https://github.com/user/repo.git
 
 # List all repositories in the sync list
-sync-repos list
+repomate list
 ```
 
 ### Configuration Options
@@ -52,20 +52,20 @@ You can customize the following paths:
 
 ```bash
 # Set custom home directory
-sync-repos --home-path /custom/home
+repomate --home-path /custom/home
 
 # Set custom code directory
-sync-repos --code-path /custom/code
+repomate --code-path /custom/code
 
 # Set custom config file location
-sync-repos --config-file /custom/config.txt
+repomate --config-file /custom/config.txt
 ```
 
 ### Default Paths
 
 - Home Path: `$HOME`
 - Code Path: `$HOME/code`
-- Config File: `$HOME/.config/alex-scripts/sync-repos/subscribed.txt`
+- Config File: `$HOME/.config/alex-scripts/repomate/subscribed.txt`
 
 ## Configuration File
 
@@ -77,7 +77,7 @@ https://github.com/user/repo2.git
 https://github.com/organization/repo3.git
 ```
 
-The file will be automatically created at `~/.config/alex-scripts/sync-repos/subscribed.txt` if it doesn't exist.
+The file will be automatically created at `~/.config/alex-scripts/repomate/subscribed.txt` if it doesn't exist.
 
 ## Behavior
 
@@ -114,5 +114,5 @@ The tool includes error handling for common scenarios:
 To see all available options and commands:
 
 ```bash
-sync-repos --help
+repomate --help
 ```
