@@ -1,4 +1,4 @@
 # shell/zsh/repomate.zsh
 function repomate() {
-  ruby ~/.local/bin/sync-repos.rb "$@"
+  exec ~/.local/bin/repomate "$@"
 }
