@@ -18,6 +18,8 @@ module Repomate
           rescue Infra::Git::Operations::Error => e
             puts "Error syncing #{repository.url}: #{e.message}"
           end
+
+          puts 'Sync complete ✨'
         end
 
         private

@@ -9,14 +9,14 @@ module Repomate
 
         def self.update(repository)
           Dir.chdir(repository.path) do
-            success = system('git stash && git checkout main && git pull')
+            success = system('git stash && git checkout main && git pull', out: File::NULL)
 
             raise Error, 'Failed to update repository' unless success
           end
         end
 
         def self.clone(repository)
-          success = system("git clone #{repository.url} #{repository.path}")
+          success = system("git clone #{repository.url} #{repository.path}", out: File::NULL)
 
           raise Error, 'Failed to clone repository' unless success
         end
