@@ -33,39 +33,35 @@ The tool can be used either directly through Ruby or via the fish shell function
 ### Basic Commands
 
 ```bash
+# List all repositories in the sync list
+repomate list
+
 # Sync all repositories
 repomate sync
 
+# Sync one repository
+repomate sync -n "user/repo"
+
 # Add a repository to the sync list
-repomate add https://github.com/user/repo.git
+repomate add -n "user/repo"
 
 # Remove a repository from the sync list
-repomate remove https://github.com/user/repo.git
-
-# List all repositories in the sync list
-repomate list
+repomate remove -n "user/repo"
 ```
 
-### Configuration Options
+### For the future
 
-You can customize the following paths:
+Allow to set custom paths per configuration
 
 ```bash
-# Set custom home directory
-repomate --home-path /custom/home
-
-# Set custom code directory
-repomate --code-path /custom/code
+# Set custom code directory in the default config
+repomate --config-file /custom/config.txt --set-code-path /custom/code
+# Set default git provider in a custom config
+repomate --config-file /custom/config.txt --set-default-provider github | gitlab
 
 # Set custom config file location
-repomate --config-file /custom/config.txt
+repomate --set-config-file /custom/config.txt
 ```
-
-### Default Paths
-
-- Home Path: `$HOME`
-- Code Path: `$HOME/code`
-- Config File: `$HOME/.config/alex-scripts/repomate/subscribed.txt`
 
 ## Configuration File
 
@@ -100,14 +96,6 @@ The file will be automatically created at `~/.config/alex-scripts/repomate/subsc
 - Git
 - Fish shell (for fish function integration)
 
-## Error Handling
-
-The tool includes error handling for common scenarios:
-
-- Missing directories are automatically created
-- Invalid repository URLs are reported
-- Network issues during sync are handled gracefully
-- Duplicate repository additions are prevented
 
 ## Help
 
