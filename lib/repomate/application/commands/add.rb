@@ -6,9 +6,9 @@ module Repomate
       # Removes a repository from the sync list
       class Add < Base
         def execute
-          return puts 'Error: Repository namespace is required' unless config.namespace
+          return puts 'Error: Repository name is required' unless config.repo_name
 
-          repository = Domain::Repository.new(namespace: config.namespace, code_path: config.code_path)
+          repository = Domain::Repository.new(name: config.repo_name, code_path: config.code_path)
           result = store.add(repository)
 
           puts result.message

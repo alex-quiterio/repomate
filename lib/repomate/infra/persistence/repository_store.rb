@@ -28,7 +28,7 @@ module Repomate
           File.open(@config_file_path, 'a') { |f| f.puts repository.url }
           Infra::Git::Operations.clone(repository)
 
-          Domain::Result.success("Added #{repository.url} to sync list")
+          Domain::Result.success("#{repository.name} added 📦")
         end
 
         def remove(repository)
@@ -38,7 +38,7 @@ module Repomate
           File.write(@config_file_path, "#{repos.map(&:url).join("\n")}\n")
           Infra::Git::Operations.remove(repository)
 
-          Domain::Result.success("Removed #{repository.url} from sync list")
+          Domain::Result.success("#{repository.name} removed 🗑")
         end
 
         def contains?(repository)

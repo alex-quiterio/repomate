@@ -6,7 +6,7 @@ module Repomate
   module Config
     # Configuration options
     class Configuration
-      attr_reader :code_path, :config_file_path, :command, :namespace
+      attr_reader :code_path, :config_file_path, :command, :repo_name
 
       def initialize
         home_path = ENV['HOME']
@@ -52,8 +52,8 @@ module Repomate
       def add_config_options(opts)
         opts.on('-p', '--code-path PATH', 'Set code directory path') { |path| @code_path = path }
         opts.on('-c', '--config-file PATH', 'Set config file path') { |path| @config_file_path = path }
-        opts.on('-n', '--namespace NAME', 'Set code namespace path (e.g. alex-quiterio/repomate)') do |ns|
-          @namespace = ns
+        opts.on('-n', '--repo-name NAME', 'Set code repo_name path (e.g. alex-quiterio/repomate)') do |name|
+          @repo_name = name
         end
 
         opts.on('-h', '--help', 'Help 🙈') do

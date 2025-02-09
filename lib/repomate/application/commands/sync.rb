@@ -11,12 +11,12 @@ module Repomate
             return
           end
 
-          return sync_single_repo if config.namespace
-
-          store.all.each do |repository|
-            sync_repository(repository)
-          rescue Infra::Git::Operations::Error => e
-            puts "Error syncing #{repository.url}: #{e.message}"
+          if config.repo_name
+            sync_repository(
+              Domain::Repository.new(name: config.repo_name, code_path: config.code_path)
+            )
+          else
+            sync_all_repos
           end
 
           puts 'Sync complete ✨'
@@ -32,10 +32,12 @@ module Repomate
           end
         end
 
-        def sync_single_repo
-          repository = Domain::Repository.new(namespace: config.namespace, code_path: config.code_path)
-
-          sync_repository(repository) if repository.valid?
+        def sync_all_repos
+          store.all.each do |repository|
+            sync_repository(repository)
+          rescue Infra::Git::Operations::Error => e
+            puts "Error syncing #{repository.url}: #{e.message}"
+          end
         end
       end
     end
