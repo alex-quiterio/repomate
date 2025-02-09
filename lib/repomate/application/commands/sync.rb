@@ -32,7 +32,8 @@ module Repomate
 
         def sync_single_repo
           repository = Domain::Repository.new(url: config.repo_url, code_path: config.code_path)
-          sync_repository(repository)
+
+          sync_repository(repository) if repository.valid?
         end
       end
     end
