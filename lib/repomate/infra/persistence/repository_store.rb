@@ -13,10 +13,12 @@ module Repomate
         def all
           return [] unless File.exist?(@config_file_path)
 
+          code_path = File.dirname(@config_file_path)
+
           File.readlines(@config_file_path)
               .map(&:strip)
               .reject(&:empty?)
-              .map { |url| Domain::Repository.new(url: url, code_path: File.dirname(@config_file_path)) }
+              .map { |url| Domain::Repository.from_url(url, code_path) }
         end
 
         def add(repository)

@@ -6,7 +6,7 @@ module Repomate
   module Config
     # Configuration options
     class Configuration
-      attr_reader :code_path, :config_file_path, :command, :repo_url, :namespace
+      attr_reader :code_path, :config_file_path, :command, :namespace
 
       def initialize
         home_path = ENV['HOME']
@@ -14,7 +14,6 @@ module Repomate
         @code_path = "#{home_path}/code"
         @config_file_path = "#{home_path}/.config/repomate/repos.txt"
         @command = ARGV[0] || 'sync'
-        @repo_url = ARGV[1] || nil
 
         parse_options
         ensure_directories
@@ -44,17 +43,17 @@ module Repomate
       end
 
       def add_docs(opts)
-        opts.banner = 'Usage: repomate [options] [command]'
+        opts.banner = 'Usage: repomate [command] [options]'
         opts.separator("\nAvailable Commands:")
         opts.separator("→  #{Repomate::Application::CommandFactory::COMMANDS.keys.sort.join(', ')}")
         opts.separator("\nOptions:")
       end
 
       def add_config_options(opts)
-        opts.on('--code-path PATH', 'Set code directory path') { |path| @code_path = path }
+        opts.on('-p', '--code-path PATH', 'Set code directory path') { |path| @code_path = path }
         opts.on('-c', '--config-file PATH', 'Set config file path') { |path| @config_file_path = path }
-        opts.on('-n', '--namespace NAME', 'Set code namespace path (e.g. alex-quiterio/repomate)') do |namespace|
-          @namespace = namespace
+        opts.on('-n', '--namespace NAME', 'Set code namespace path (e.g. alex-quiterio/repomate)') do |ns|
+          @namespace = ns
         end
 
         opts.on('-h', '--help', 'Help 🙈') do
@@ -63,7 +62,7 @@ module Repomate
         end
 
         opts.on('-v', '--version', 'Version') do
-          puts "repomate #{Repomate::VERSION}"
+          puts "repomate #{Repomate::VERSION} 🎸"
           exit
         end
       end
