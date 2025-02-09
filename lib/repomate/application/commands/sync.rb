@@ -11,7 +11,7 @@ module Repomate
             return
           end
 
-          return sync_single_repo if config.repo_url
+          return sync_single_repo if config.namespace
 
           store.all.each do |repository|
             sync_repository(repository)
@@ -31,7 +31,7 @@ module Repomate
         end
 
         def sync_single_repo
-          repository = Domain::Repository.new(url: config.repo_url, code_path: config.code_path)
+          repository = Domain::Repository.new(namespace: config.namespace, code_path: config.code_path)
 
           sync_repository(repository) if repository.valid?
         end

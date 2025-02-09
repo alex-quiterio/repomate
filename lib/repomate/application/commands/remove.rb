@@ -6,9 +6,9 @@ module Repomate
       # Removes a repository from the sync list
       class Remove < Base
         def execute
-          return puts 'Error: Repository URL is required' unless config.repo_url
+          return puts 'Error: Repository namespace is required' unless config.namespace
 
-          repository = Domain::Repository.new(url: config.repo_url, code_path: config.code_path)
+          repository = Domain::Repository.new(namespace: config.namespace, code_path: config.code_path)
           result = store.remove(repository)
           Infra::Git::Operations.remove(repository)
 
