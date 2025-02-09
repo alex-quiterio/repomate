@@ -4,7 +4,7 @@ module Repomate
   module Application
     module Commands
       # Lists repositories in the sync list
-      class List < BaseCommand
+      class List < Base
         def execute
           repos = store.all
           if repos.empty?

@@ -3,4 +3,4 @@
 
 require_relative '../lib/repomate'
 
-Repomate::Interface::CLI.start
+Repomate::Interface::CommandsCLI.readline

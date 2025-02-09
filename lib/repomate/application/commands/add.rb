@@ -4,7 +4,7 @@ module Repomate
   module Application
     module Commands
       # Removes a repository from the sync list
-      class Add < BaseCommand
+      class Add < Base
         def execute
           return puts 'Error: Repository URL is required' unless config.repo_url
 

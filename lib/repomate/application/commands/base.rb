@@ -4,7 +4,7 @@ module Repomate
   module Application
     module Commands
       # Base class for all commands
-      class BaseCommand
+      class Base
         attr_reader :config, :store
 
         def initialize(config:, store:)

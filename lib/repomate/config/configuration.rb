@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'fileutils'
 require 'optparse'
 
 module Repomate
@@ -14,8 +13,8 @@ module Repomate
         # Set defaults
         @code_path = "#{home_path}/code"
         @config_file_path = "#{home_path}/.config/repomate/repos.txt"
-        @command = 'sync'
-        @repo_url = nil
+        @command = ARGV[0] || 'sync'
+        @repo_url = ARGV[1] || nil
 
         parse_options
         ensure_directories
@@ -25,38 +24,9 @@ module Repomate
 
       def parse_options
         OptionParser.new do |opts|
-          opts.banner = 'Usage: repomate [options] [command]'
-          opts.separator("\nCommands:")
-          opts.separator('  sync                     Sync all repositories (default)')
-          opts.separator('  add REPO_URL            Add repository to sync list')
-          opts.separator('  remove REPO_URL         Remove repository from sync list')
-          opts.separator('  list                    Show all repositories in sync list')
-          opts.separator("\nOptions:")
-
-          opts.on('--code-path PATH', 'Set code directory path') do |path|
-            @code_path = path
-          end
-
-          opts.on('-c', '--config-file PATH', 'Set config file path') do |path|
-            @config_file_path = path
-          end
-
-          opts.on('-h', '--help', 'Display this help message') do
-            puts opts
-            exit
-          end
-
-          opts.on('-v', '--version', 'Display version') do
-            puts "repomate #{Repomate::VERSION}"
-            exit
-          end
+          add_docs(opts)
+          add_config_options(opts)
         end.parse!
-
-        # Parse command and repository URL if provided
-        return unless ARGV.any?
-
-        @command = ARGV[0]
-        @repo_url = ARGV[1] if ARGV[1]
       end
 
       def ensure_directories
@@ -71,6 +41,27 @@ module Repomate
       rescue StandardError => e
         puts "Error creating directories: #{e.message}"
         exit 1
+      end
+
+      def add_docs(opts)
+        opts.banner = 'Usage: repomate [options] [command]'
+        opts.separator("\nAvailable Commands:")
+        opts.separator("→  #{Repomate::Application::CommandFactory::COMMANDS.keys.sort.join(', ')}")
+        opts.separator("\nOptions:")
+      end
+
+      def add_config_options(opts)
+        opts.on('--code-path PATH', 'Set code directory path') { |path| @code_path = path }
+        opts.on('-c', '--config-file PATH', 'Set config file path') { |path| @config_file_path = path }
+
+        opts.on('-h', '--help', 'Help 🙈') do
+          puts opts
+          exit
+        end
+        opts.on('-v', '--version', 'Version') do
+          puts "repomate #{Repomate::VERSION}"
+          exit
+        end
       end
     end
   end

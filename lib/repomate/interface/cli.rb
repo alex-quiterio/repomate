@@ -3,8 +3,8 @@
 module Repomate
   module Interface
     # Command Line Interface
-    class CLI
-      def self.start
+    class CommandsCLI
+      def self.readline
         config = Repomate::Config::Configuration.new
         manager = Repomate::Application::Manager.new(config)
         manager.run
