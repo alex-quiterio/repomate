@@ -15,20 +15,20 @@ module Repomate
         @config_file_path = "#{home_path}/.config/repomate/repos.txt"
         @command = ARGV[0] || 'sync'
 
-        parse_options
-        ensure_directories
+        parse_options!
+        ensure_directories!
       end
 
       private
 
-      def parse_options
+      def parse_options!
         OptionParser.new do |opts|
           add_docs(opts)
           add_config_options(opts)
         end.parse!
       end
 
-      def ensure_directories
+      def ensure_directories!
         FileUtils.mkdir_p(@code_path)
         config_dir = File.dirname(@config_file_path)
         FileUtils.mkdir_p(config_dir)
