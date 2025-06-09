@@ -40,13 +40,13 @@ repomate list
 repomate sync
 
 # Sync one repository
-repomate sync -n "user/repo"
+repomate sync -l "git@github.com:alex-quiterio/repomate.git"
 
 # Add a repository to the sync list
-repomate add -n "user/repo"
+repomate add -l "git@github.com:alex-quiterio/repomate.git"
 
 # Remove a repository from the sync list
-repomate remove -n "user/repo"
+repomate remove -l "git@github.com:alex-quiterio/repomate.git"
 ```
 
 ### For the future

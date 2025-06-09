@@ -11,9 +11,9 @@ module Repomate
             return
           end
 
-          if config.repo_name
+          if config.repo_url
             sync_repository(
-              Domain::Repository.new(name: config.repo_name, code_path: config.code_path)
+              Domain::Repository.from_url(config.repo_url, config.code_path)
             )
           else
             sync_all_repos

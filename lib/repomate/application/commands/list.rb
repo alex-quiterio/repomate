@@ -12,6 +12,8 @@ module Repomate
             return
           end
 
+          puts 'Path to code directory:'
+          puts "- #{config.code_path}"
           puts 'Repositories in sync list:'
           repos.each { |repo| puts "- #{repo.url}" }
         end
