@@ -9,7 +9,14 @@ module Repomate
 
         def self.update(repository)
           Dir.chdir(repository.path) do
-            success = system('git stash && git checkout main && git pull', out: File::NULL)
+            # Try main branch first, then master if main doesn't exist
+            success = system('git stash', out: File::NULL)
+            if system('git checkout main', out: File::NULL)
+              success &&= system('git pull', out: File::NULL)
+            else
+              success &&= system('git checkout master', out: File::NULL)
+              success &&= system('git pull', out: File::NULL)
+            end
 
             raise Error, 'Failed to update repository' unless success
           end
