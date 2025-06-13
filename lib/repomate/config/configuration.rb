@@ -12,7 +12,7 @@ module Repomate
         home_path = ENV['HOME']
         # Set defaults
         @code_path = "#{home_path}/code"
-        @config_file_path = "#{home_path}/.config/repomate/repos.txt"
+        @config_file_path = "#{home_path}/code/.subscribed-repos"
         @command = ARGV[0] || 'sync'
 
         parse_options!
