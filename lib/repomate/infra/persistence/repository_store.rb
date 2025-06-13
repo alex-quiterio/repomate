@@ -25,8 +25,8 @@ module Repomate
           return Domain::Result.failure('Invalid repository URL') unless repository.valid?
           return Domain::Result.failure('Repository already exists') if contains?(repository)
 
-          File.open(@config_file_path, 'a') { |f| f.puts repository.url }
           Infra::Git::Operations.clone(repository)
+          File.open(@config_file_path, 'a') { |f| f.puts repository.url }
 
           Domain::Result.success("#{repository.name} added 📦")
         end
