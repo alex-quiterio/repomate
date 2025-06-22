@@ -9,16 +9,27 @@ module Repomate
 
         def self.update(repository)
           Dir.chdir(repository.path) do
-            # Try main branch first, then master if main doesn't exist
-            success = system('git stash', out: File::NULL)
-            if system('git checkout main', out: File::NULL)
+            success = true
+            system('git reset', out: File::NULL, err: File::NULL)
+            stashed = system('git stash save --keep-index --include-untracked', out: File::NULL)
+            default_branch = system('cat .git/config | grep "main"', out: File::NULL) ? 'main' : 'master'
+            current_branch = `git rev-parse --abbrev-ref HEAD`.strip
+
+            if default_branch != current_branch
+              success &&= system(`git checkout #{default_branch}`, out: File::NULL, err: File::NULL)
               success &&= system('git pull', out: File::NULL)
+              success &&= system(`git checkout -`, out: File::NULL)
             else
-              success &&= system('git checkout master', out: File::NULL)
               success &&= system('git pull', out: File::NULL)
             end
 
+            system('git stash pop', out: File::NULL, err: File::NULL) if stashed
+
             raise Error, 'Failed to update repository' unless success
+
+            puts "\e[32mDONE 🎉\e[0m"
+          rescue StandardError => e
+            raise Error, "Failed to update repository: #{e.message}"
           end
         end
 
