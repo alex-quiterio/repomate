@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Current Test File",
+      "type": "ruby",
+      "request": "launch",
+      "program": "bundle exec rspec",
+      "args": ["${file}"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Run All Tests",
+      "type": "ruby",
+      "request": "launch",
+      "program": "bundle exec rspec",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug Current Test",
+      "type": "ruby",
+      "request": "launch",
+      "program": " bundle exec rspec",
+      "args": ["${file}"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

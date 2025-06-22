@@ -3,7 +3,7 @@
 require 'spec_helper'
 require_relative './repository'
 
-describe Repomate::Domain::Repository do
+describe Repomate::Domain::Repository do # rubocop:disable Metrics/BlockLength
   let(:code_path) { '/tmp/repos' }
   let(:repo_name) { 'user/project' }
   let(:repository) { described_class.new(name: repo_name, code_path: code_path) }

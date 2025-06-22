@@ -7,16 +7,22 @@ module Repomate
       class Operations
         class Error < StandardError; end
 
-        def self.update(repository)
+        def self.update(repository) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
           Dir.chdir(repository.path) do
             success = true
             system('git reset', out: File::NULL, err: File::NULL)
             stashed = system('git stash save --keep-index --include-untracked', out: File::NULL)
-            default_branch = system('cat .git/config | grep "main"', out: File::NULL) ? 'main' : 'master'
+            default_branch = if system('cat .git/config | grep "main"',
+                                       out: File::NULL)
+                               'main'
+                             else
+                               'master'
+                             end
             current_branch = `git rev-parse --abbrev-ref HEAD`.strip
 
             if default_branch != current_branch
-              success &&= system(`git checkout #{default_branch}`, out: File::NULL, err: File::NULL)
+              success &&= system(`git checkout #{default_branch}`, out: File::NULL,
+                                                                   err: File::NULL)
               success &&= system('git pull', out: File::NULL)
               success &&= system(`git checkout -`, out: File::NULL)
             else

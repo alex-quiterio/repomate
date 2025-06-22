@@ -1,6 +1,6 @@
 # shell/fish/repomate.fish
-function repomate
-  exec ~/.local/bin/repomate $argv
+function repomate --description 'Repository assistent'
+  command $HOME/code/alex-quiterio/repomate/bin/repomate $argv
 end
 
 # Add completions for the commands

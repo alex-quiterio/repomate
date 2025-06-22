@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Gemfile
 source 'https://rubygems.org'
 
@@ -13,5 +15,7 @@ group :development do
 end
 
 group :test do
+  gem 'rubocop-rake', require: false
+  gem 'rubocop-rspec', require: false
   gem 'simplecov', '~> 0.21.0' # For test coverage
 end

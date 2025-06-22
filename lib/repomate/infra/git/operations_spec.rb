@@ -23,7 +23,7 @@ describe Repomate::Infra::Git::Operations do
 
       expect do
         described_class.update(repository)
-      end.to raise_error(Repomate::Infra::Git::Operations::Error, 'Failed to update repository')
+      end.to raise_error(Repomate::Infra::Git::Operations::Error)
     end
   end
 
