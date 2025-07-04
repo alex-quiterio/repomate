@@ -6,13 +6,13 @@ module Repomate
       # Stores repositories in a file
       class RepositoryStore
         def initialize(config_file_path:, code_path:)
-          raise 'Missing config_path or code_path' if config_file_path.nil?
+          raise 'Missing config_file_path' if config_file_path.nil?
 
-          @config_file_path = config_file_path
           @code_path = code_path || config_file_path
+          @config_file_path = config_file_path
 
-          ensure_config_file_exists
-          ensure_code_path_exists
+          ensure_config_file_exists!
+          ensure_code_path_exists!
         end
 
         def all
@@ -50,15 +50,16 @@ module Repomate
 
         private
 
-        def ensure_config_file_exists
+        def ensure_config_file_exists!
           FileUtils.touch(@config_file_path) unless File.exist?(@config_file_path)
         end
 
-        def ensure_code_path_exists
+        def ensure_code_path_exists!
           FileUtils.mkdir_p(@code_path) unless Dir.exist?(@code_path)
         rescue Errno::EACCES => e
           raise "Could not create config directory #{@code_path} due to #{e.message}"
-        rescue Errno::EEXIST => e
+        rescue Errno::EEXIST
+          false
         end
       end
     end
