@@ -51,19 +51,21 @@ repomate remove -l "git@github.com:alex-quiterio/repomate.git"
 
 ### For the future
 
-Allow to set custom paths per configuration
+- Automatically pick `.subscribed-repos` under the current directory.
+- Set a default repomate configuration for the config file and code paths.
 
 ```bash
 # Set custom code directory in the default config
-repomate --config-file /custom/config.txt --set-code-path /custom/code
-# Set default git provider in a custom config
-repomate --config-file /custom/config.txt --set-default-provider github | gitlab
-
-# Set custom config file location
-repomate --set-config-file /custom/config.txt
+repomate --set-default-config $HOME/.repomate-config
 ```
 
-## Configuration File
+And this is what the default repomate config could look like
+```
+default_code_path=$HOME/project_y/code
+default_config_file_path=$HOME/.subscribed-repos
+```
+
+## Repositories Configuration File
 
 The configuration file is a simple text file with one repository URL per line. For example:
 
@@ -73,7 +75,7 @@ https://github.com/user/repo2.git
 https://github.com/organization/repo3.git
 ```
 
-The file will be automatically created at `~/.config/alex-scripts/repomate/subscribed.txt` if it doesn't exist.
+The file will be automatically created at `$HOME/code/.subscribed-repos` if it doesn't exist.
 
 ## Behavior
 
