@@ -8,10 +8,10 @@ require_relative './repository_store'
 describe Repomate::Infra::Persistence::RepositoryStore do # rubocop:disable Metrics/BlockLength
   let(:temp_file) { Tempfile.new('repos') }
   let(:config_file_path) { temp_file.path }
-  let(:code_path) { File.dirname(config_file_path) }
+  let(:code_path) { config_file_path }
   let(:repository) { instance_double(Repomate::Domain::Repository, url: 'https://github.com/user/repo.git', name: 'repo', valid?: true) }
 
-  subject { described_class.new(config_file_path) }
+  subject { described_class.new(config_file_path: config_file_path, code_path: code_path) }
 
   after do
     temp_file.close
@@ -26,9 +26,11 @@ describe Repomate::Infra::Persistence::RepositoryStore do # rubocop:disable Metr
       end
 
       it 'creates the config file' do
-        allow(File).to receive(:exist?).with(config_file_path).and_return(false)
-        expect(FileUtils).to receive(:touch).with(config_file_path)
-        described_class.new(config_file_path)
+        non_existent_config_file_path = Tempfile.new('repos').path
+
+        allow(File).to receive(:exist?).with(non_existent_config_file_path).and_return(false)
+        expect(FileUtils).to receive(:touch).with(non_existent_config_file_path)
+        described_class.new(config_file_path: non_existent_config_file_path, code_path: code_path)
       end
     end
   end

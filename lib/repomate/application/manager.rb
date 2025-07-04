@@ -6,7 +6,10 @@ module Repomate
     class Manager
       def initialize(config)
         @config = config
-        @store = Infra::Persistence::RepositoryStore.new(config.config_file_path)
+        @store = Infra::Persistence::RepositoryStore.new(
+          config_file_path: config.config_file_path,
+          code_path: config.code_path
+        )
       end
 
       def run
