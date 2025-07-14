@@ -11,7 +11,8 @@ module Repomate
         sync: Commands::Sync,
         add: Commands::Add,
         remove: Commands::Remove,
-        list: Commands::List
+        list: Commands::List,
+        init: Commands::Init
       }.freeze
 
       def self.create(name:, config:, store:)

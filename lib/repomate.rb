@@ -15,6 +15,7 @@ module Repomate
   require_relative 'repomate/infra/persistence/repository_store'
   require_relative 'repomate/application/commands/base'
   require_relative 'repomate/application/commands/add'
+  require_relative 'repomate/application/commands/init'
   require_relative 'repomate/application/commands/list'
   require_relative 'repomate/application/commands/remove'
   require_relative 'repomate/application/commands/sync'
