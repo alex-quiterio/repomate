@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    repomate (0.1.4)
+    repomate (0.1.5)
       fileutils
       optparse
 

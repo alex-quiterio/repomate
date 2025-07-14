@@ -6,7 +6,7 @@ module Repomate
   module Config
     # Configuration options
     class Configuration
-      attr_reader :code_path, :config_file_path, :command, :repo_url
+      attr_reader :code_path, :config_file_path, :command, :repo_url, :pattern
 
       def initialize
         home_path = ENV['HOME']
@@ -57,6 +57,10 @@ module Repomate
         opts.on('-l', '--repo-url NAME',
                 'Set repository URL (e.g. git@github.com:alex-quiterio/repomate.git)') do |name|
           @repo_url = name
+        end
+        opts.on('-s', '--search PATTERN',
+                'Filter repositories by pattern (for sync command)') do |pattern|
+          @pattern = pattern
         end
 
         opts.on('-h', '--help', 'Help 🙈') do

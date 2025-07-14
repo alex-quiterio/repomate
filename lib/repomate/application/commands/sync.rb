@@ -34,7 +34,18 @@ module Repomate
         end
 
         def sync_all_repos
-          store.all.each do |repository|
+          repositories = store.all
+          
+          if config.pattern
+            repositories = repositories.select { |repo| repo.url.include?(config.pattern) }
+            if repositories.empty?
+              puts "No repositories match pattern '#{config.pattern}'"
+              return
+            end
+            puts "Syncing #{repositories.length} repositories matching pattern '#{config.pattern}'..."
+          end
+          
+          repositories.each do |repository|
             sync_repository(repository)
           rescue Infra::Git::Operations::Error => e
             puts "Error syncing #{repository.url}: #{e.message}"
