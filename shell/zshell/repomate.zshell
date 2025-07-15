@@ -1,4 +1,35 @@
-# shell/zsh/repomate.zsh
+# repomate.plugin.zsh
+#
+# A ZSH plugin that provides a wrapper function for executing the repomate Ruby script.
+#
+# This plugin defines a function called 'repomate' which:
+# - Checks if arguments are provided, showing usage information if not
+# - Points to a Ruby script located at ~/code/alex-quiterio/repomate/bin/repomate
+# - Verifies that the script exists before attempting to execute it
+# - Passes all provided arguments to the Ruby script when executing
+#
+# Usage:
+#   repomate <ruby_script> [arguments...]
+#
+# Return:
+#   0 if successful, 1 if an error occurs (no arguments or script not found)
+
 function repomate() {
-  exec ~/.local/bin/repomate.rb "$@"
+  # Check if any arguments were provided
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: repomate <ruby_script> [arguments...]"
+    echo "Executes a Ruby script with the provided arguments"
+    return 1
+  fi
+
+  local ruby_script="$HOME/code/alex-quiterio/repomate/bin/repomate"
+
+  # Check if the ruby script exists
+  if [[ ! -f "$ruby_script" ]]; then
+    echo "Error: Ruby script '$ruby_script' not found"
+    return 1
+  fi
+
+  # Execute the ruby script with all remaining arguments
+  ruby "$ruby_script" "$@"
 }
