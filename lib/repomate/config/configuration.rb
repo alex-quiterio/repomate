@@ -50,16 +50,12 @@ module Repomate
       end
 
       def add_config_options(opts)
-        opts.on('-p', '--code-path PATH', 'Set code directory path') { |path| @code_path = path }
-        opts.on('-c', '--config-file PATH', 'Set config file path') do |path|
-          @config_file_path = path
-        end
         opts.on('-l', '--repo-url NAME',
                 'Set repository URL (e.g. git@github.com:alex-quiterio/repomate.git)') do |name|
           @repo_url = name
         end
-        opts.on('-s', '--search PATTERN',
-                'Filter repositories by pattern (for sync command)') do |pattern|
+        opts.on('-p', '--pattern PATTERN',
+                'Filter repositories by pattern (for sync command only)') do |pattern|
           @pattern = pattern
         end
 

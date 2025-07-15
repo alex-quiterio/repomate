@@ -8,27 +8,68 @@ A command-line tool to manage and synchronize multiple git repositories. This to
 - Add and remove repositories from the sync list
 - Automatically clone new repositories
 - Update existing repositories
+- Pattern-based filtering for selective syncing
+- Support for multiple shells (bash, fish, zsh)
 - Configurable paths for code and configuration storage
 
 ## Installation
 
-1. Ensure you have Ruby installed on your system
-2. Copy `repomate.rb` to `~/.local/bin/`:
+### As a Gem (Recommended)
+
 ```bash
-mkdir -p ~/.local/bin
-cp repomate.rb ~/.local/bin/
-chmod +x ~/.local/bin/repomate.rb
+gem install repomate
 ```
 
-3. Add the fish function to your fish config:
+### From Source
+
+1. Clone the repository:
+
+```bash
+git clone git@github.com:alex-quiterio/repomate.git
+cd repomate
+```
+
+2. Install dependencies:
+
+```bash
+bundle install
+```
+
+3. Build and install the gem:
+
+```bash
+gem build repomate.gemspec
+gem install repomate-*.gem
+```
+
+### Shell Integration (Optional)
+
+Choose the appropriate shell integration for enhanced functionality:
+
+#### Fish Shell
+
 ```bash
 mkdir -p ~/.config/fish/functions
-cp repomate.fish ~/.config/fish/functions/
+cp shell/fish/repomate.fish ~/.config/fish/functions/
+```
+
+#### Zsh
+
+```bash
+# Add to your ~/.zshrc
+source /path/to/repomate/shell/zshell/repomate.zshell
+```
+
+#### Bash
+
+```bash
+# Add to your ~/.bashrc or ~/.bash_profile
+source /path/to/repomate/shell/bash/repomate.bash
 ```
 
 ## Usage
 
-The tool can be used either directly through Ruby or via the fish shell function.
+The tool can be used directly from the command line after installation.
 
 ### Basic Commands
 
@@ -39,7 +80,10 @@ repomate list
 # Sync all repositories
 repomate sync
 
-# Sync one repository
+# Sync repositories matching a pattern
+repomate sync -p "myproject"
+
+# Sync a specific repository
 repomate sync -l "git@github.com:alex-quiterio/repomate.git"
 
 # Add a repository to the sync list
@@ -49,30 +93,21 @@ repomate add -l "git@github.com:alex-quiterio/repomate.git"
 repomate remove -l "git@github.com:alex-quiterio/repomate.git"
 ```
 
-### For the future
+### Available Options
 
-- Automatically pick `.subscribed-repos` under the current directory.
-- Set a default repomate configuration for the config file and code paths.
-
-```bash
-# Set custom code directory in the default config
-repomate --set-default-config $HOME/.repomate-config
-```
-
-And this is what the default repomate config could look like
-```
-default_code_path=$HOME/project_y/code
-default_config_file_path=$HOME/.subscribed-repos
-```
+- `-l, --repo-url URL`: Specify a repository URL for add/remove/sync operations
+- `-p, --pattern PATTERN`: Filter repositories by pattern (for sync command)
+- `-h, --help`: Show help information
+- `-v, --version`: Show version information
 
 ## Repositories Configuration File
 
 The configuration file is a simple text file with one repository URL per line. For example:
 
 ```text
-https://github.com/user/repo1.git
-https://github.com/user/repo2.git
-https://github.com/organization/repo3.git
+git@github.com:user/repo1.git
+git@github.com:user/repo2.git
+git@github.com:organization/repo3.git
 ```
 
 The file will be automatically created at `$HOME/code/.subscribed-repos` if it doesn't exist.
@@ -82,21 +117,29 @@ The file will be automatically created at `$HOME/code/.subscribed-repos` if it d
 - When syncing repositories:
   - If a repository doesn't exist locally, it will be cloned
   - If a repository exists locally, it will be updated (git pull)
-  - Updates are performed on the 'main' branch
+  - Updates are performed on the default branch (main/master)
+  - Handles uncommitted changes by stashing them temporarily during updates
+  - Supports pattern-based filtering to sync only matching repositories
 
 - When adding repositories:
   - Duplicate repositories are not allowed
   - The URL is validated before adding
+  - Repository is automatically cloned after being added to the list
 
 - When removing repositories:
-  - Only the repository URL is removed from the sync list
-  - The local repository files are not deleted
+  - Repository URL is removed from the sync list
+  - Local repository files are also deleted from disk
+
+- Configuration:
+  - Default code directory: `$HOME/code`
+  - Default config file: `$HOME/code/.subscribed-repos`
+  - Directories are created automatically if they don't exist
 
 ## Requirements
 
-- Ruby
+- Ruby 2.6.0 or higher
 - Git
-- Fish shell (for fish function integration)
+- Optional: Fish, Zsh, or Bash shell (for enhanced shell integration)
 
 
 ## Help
