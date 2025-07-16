@@ -34,11 +34,11 @@ module Repomate
         FileUtils.mkdir_p(config_dir)
 
         unless File.exist?(@config_file_path)
-          puts "Creating config file at #{@config_file_path}"
+          puts "Repomate: Creating config file at #{@config_file_path}"
           FileUtils.touch(@config_file_path)
         end
       rescue StandardError => e
-        puts "Error creating directories: #{e.message}"
+        puts "Repomate: Error creating directories: #{e.message}"
         exit 1
       end
 
