@@ -6,24 +6,12 @@ module Repomate
       # Sync command for syncing repositories
       class Sync < Base
         def execute
-          repositories = store.all
-          if repositories.empty?
-            puts "No repositories configured. Add some with 'add' command."
-            return
-          end
+          repos_to_sync = optionally_filter_repositories_by_pattern(store.all)
+          return puts 'No repositories to sync' if repos_to_sync.empty?
 
-          if config.pattern
-            repositories = repositories.select { |repo| repo.url.include?(config.pattern) }
-            if repositories.empty?
-              puts "No repositories match pattern '#{config.pattern}'"
-              return
-            end
-            puts "\e[34mSyncing #{repositories.length} repositories matching pattern '#{config.pattern}'...\e[0m"
-          else
-            puts "\e[34mSyncing #{repositories.length} repositories..."
-          end
+          puts "\e[34mSyncing #{repos_to_sync.length} repositories...\e[0m"
 
-          repositories.each do |repository|
+          repos_to_sync.each do |repository|
             sync_repository(repository)
           rescue Infra::Git::Operations::Error => e
             puts "Error syncing #{repository.url}: #{e.message}"
@@ -34,6 +22,12 @@ module Repomate
 
         private
 
+        def optionally_filter_repositories_by_pattern(repositories)
+          return repositories unless config.pattern
+
+          repositories.select { |repo| repo.url.include?(config.pattern) }
+        end
+
         def sync_repository(repository)
           if repository.exists_locally?
             puts "Syncing #{repository.name}..."
@@ -41,10 +35,6 @@ module Repomate
           else
             Infra::Git::Operations.clone(repository)
           end
-        end
-
-        def sync_all_repos
-
         end
       end
     end

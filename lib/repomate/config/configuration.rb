@@ -50,12 +50,10 @@ module Repomate
       end
 
       def add_config_options(opts)
-        opts.on('-l', '--repo-url NAME',
-                'Set repository URL (e.g. git@github.com:alex-quiterio/repomate.git)') do |name|
+        opts.on('-l', '--repo-url NAME', 'Set repository URL (for add/remove commands)') do |name|
           @repo_url = name
         end
-        opts.on('-p', '--pattern PATTERN',
-                'Filter repositories by pattern (for sync command only)') do |pattern|
+        opts.on('-p', '--pattern PATTERN', 'Filter repositories by pattern (for sync/list commands)') do |pattern|
           @pattern = pattern
         end
 
