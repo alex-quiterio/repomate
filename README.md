@@ -138,7 +138,6 @@ The file will be automatically created at `$HOME/code/.subscribed-repos` if it d
 - Git
 - Optional: Fish, Zsh, or Bash shell (for enhanced shell integration)
 
-
 ## Help
 
 To see all available options and commands:
