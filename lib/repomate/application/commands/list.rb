@@ -7,10 +7,7 @@ module Repomate
       class List < Base
         def execute
           repos = store.all
-          if repos.empty?
-            puts "No repositories configured. Add some with 'add' command."
-            return
-          end
+          return puts "No repositories configured. Add some with 'add' command." if repos.empty?
 
           repos = repos.select { |repo| repo.url.include?(config.pattern) } if config.pattern
 

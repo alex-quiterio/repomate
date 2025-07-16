@@ -30,7 +30,7 @@ module Repomate
 
         def sync_repository(repository)
           if repository.exists_locally?
-            puts "Syncing #{repository.name}..."
+            puts "♲ #{repository.name}..."
             Infra::Git::Operations.update(repository)
           else
             Infra::Git::Operations.clone(repository)

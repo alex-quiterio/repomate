@@ -31,7 +31,7 @@ module Repomate
 
             system('git stash pop', out: File::NULL, err: File::NULL) if stashed
 
-            raise Error, 'Failed to update repository' unless success
+            raise Error, "\e[31mFailed to update repository\e[0m" unless success
 
             puts "\e[32mDONE 🎉\e[0m"
           rescue StandardError => e
