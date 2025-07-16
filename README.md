@@ -83,9 +83,6 @@ repomate sync
 # Sync repositories matching a pattern
 repomate sync -p "myproject"
 
-# Sync a specific repository
-repomate sync -l "git@github.com:alex-quiterio/repomate.git"
-
 # Add a repository to the sync list
 repomate add -l "git@github.com:alex-quiterio/repomate.git"
 

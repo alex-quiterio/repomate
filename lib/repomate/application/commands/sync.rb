@@ -6,20 +6,30 @@ module Repomate
       # Sync command for syncing repositories
       class Sync < Base
         def execute
-          if store.all.empty?
+          repositories = store.all
+          if repositories.empty?
             puts "No repositories configured. Add some with 'add' command."
             return
           end
 
-          if config.repo_url
-            sync_repository(
-              Domain::Repository.from_url(config.repo_url, config.code_path)
-            )
+          if config.pattern
+            repositories = repositories.select { |repo| repo.url.include?(config.pattern) }
+            if repositories.empty?
+              puts "No repositories match pattern '#{config.pattern}'"
+              return
+            end
+            puts "\e[34mSyncing #{repositories.length} repositories matching pattern '#{config.pattern}'...\e[0m"
           else
-            sync_all_repos
+            puts "\e[34mSyncing #{repositories.length} repositories..."
           end
 
-          puts 'Sync complete ✨'
+          repositories.each do |repository|
+            sync_repository(repository)
+          rescue Infra::Git::Operations::Error => e
+            puts "Error syncing #{repository.url}: #{e.message}"
+          end
+
+          puts "\e[34mSync complete ✨\e[0m"
         end
 
         private
@@ -34,22 +44,7 @@ module Repomate
         end
 
         def sync_all_repos
-          repositories = store.all
-          
-          if config.pattern
-            repositories = repositories.select { |repo| repo.url.include?(config.pattern) }
-            if repositories.empty?
-              puts "No repositories match pattern '#{config.pattern}'"
-              return
-            end
-            puts "Syncing #{repositories.length} repositories matching pattern '#{config.pattern}'..."
-          end
-          
-          repositories.each do |repository|
-            sync_repository(repository)
-          rescue Infra::Git::Operations::Error => e
-            puts "Error syncing #{repository.url}: #{e.message}"
-          end
+
         end
       end
     end
