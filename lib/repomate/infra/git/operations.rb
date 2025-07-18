@@ -7,9 +7,10 @@ module Repomate
       class Operations
         class Error < StandardError; end
 
-        def self.update(repository) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+        def self.update(repository)
           Dir.chdir(repository.path) do
             success = true
+            system('git fetch --all', out: File::NULL, err: File::NULL)
             system('git reset', out: File::NULL, err: File::NULL)
             stashed = system('git stash save --keep-index --include-untracked', out: File::NULL)
             default_branch = if system('cat .git/config | grep "main"',
@@ -21,17 +22,19 @@ module Repomate
             current_branch = `git rev-parse --abbrev-ref HEAD`.strip
 
             if default_branch != current_branch
-              success &&= system(`git checkout #{default_branch}`, out: File::NULL,
-                                                                   err: File::NULL)
-              success &&= system('git pull', out: File::NULL)
-              success &&= system(`git checkout -`, out: File::NULL)
+              system("git checkout #{default_branch}")
+              success = system("git pull origin #{default_branch}")
+              system("git checkout #{current_branch}")
             else
-              success &&= system('git pull', out: File::NULL)
+              success = system("git pull origin #{default_branch}")
             end
 
             system('git stash pop', out: File::NULL, err: File::NULL) if stashed
 
-            raise Error, "\e[31mFailed to update repository\e[0m" unless success
+            unless success
+              puts "\e[36mNo changes to pull\e[0m"
+              return false
+            end
 
             puts "\e[32mDONE 🎉\e[0m"
           rescue StandardError => e

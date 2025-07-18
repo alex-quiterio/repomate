@@ -21,9 +21,7 @@ describe Repomate::Infra::Git::Operations do
       allow(Dir).to receive(:chdir).and_yield
       allow(described_class).to receive(:system).and_return(false)
 
-      expect do
-        described_class.update(repository)
-      end.to raise_error(Repomate::Infra::Git::Operations::Error)
+      expect(described_class.update(repository)).to eq(false)
     end
   end
 

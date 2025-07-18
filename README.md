@@ -92,7 +92,7 @@ repomate remove -l "git@github.com:alex-quiterio/repomate.git"
 
 ### Available Options
 
-- `-l, --repo-url URL`: Specify a repository URL for add/remove/sync operations
+- `-l, --repo-url URL`: Specify a repository URL (for add/remove)
 - `-p, --pattern PATTERN`: Filter repositories by pattern (for sync/list)
 - `-h, --help`: Show help information
 - `-v, --version`: Show version information
