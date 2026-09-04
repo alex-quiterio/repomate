@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'open3'
 
 # Repomate module serves as the namespace for the entire application.
 # It encapsulates all the classes and modules related to the Repomate application.
@@ -11,6 +12,7 @@ module Repomate
   require_relative 'repomate/domain/result'
   require_relative 'repomate/domain/repository'
   require_relative 'repomate/config/configuration'
+  require_relative 'repomate/interface/progress'
   require_relative 'repomate/infra/git/operations'
   require_relative 'repomate/infra/persistence/repository_store'
   require_relative 'repomate/application/commands/base'

@@ -10,6 +10,8 @@ module Repomate
 
         # Also handle SIGINT (Ctrl+C) for better user experience
         trap('INT') do
+          # The progress board hides the cursor while it draws; give it back.
+          print "\e[?25h"
           puts "\n\e[31mRepomate stopped ⏸️\e[0m"
           exit 1
         end

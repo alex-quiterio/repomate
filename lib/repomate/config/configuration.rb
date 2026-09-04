@@ -6,7 +6,9 @@ module Repomate
   module Config
     # Configuration options
     class Configuration
-      attr_reader :code_path, :config_file_path, :command, :repo_url, :pattern
+      DEFAULT_JOBS = 8
+
+      attr_reader :code_path, :config_file_path, :command, :repo_url, :pattern, :jobs
 
       def initialize
         home_path = ENV['HOME']
@@ -14,6 +16,7 @@ module Repomate
         @code_path = "#{home_path}/code"
         @config_file_path = "#{home_path}/code/.subscribed-repos"
         @command = ARGV[0] || 'sync'
+        @jobs = DEFAULT_JOBS
 
         parse_options!
         ensure_directories!
@@ -55,6 +58,10 @@ module Repomate
         end
         opts.on('-p', '--pattern PATTERN', 'Filter repositories by pattern (for sync/list commands)') do |pattern|
           @pattern = pattern
+        end
+        opts.on('-j', '--jobs JOBS', Integer,
+                "Repositories to sync in parallel (default: #{DEFAULT_JOBS})") do |jobs|
+          @jobs = [jobs, 1].max
         end
 
         opts.on('-h', '--help', 'Help 🙈') do

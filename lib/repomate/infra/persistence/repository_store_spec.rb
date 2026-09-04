@@ -5,7 +5,7 @@ require 'tempfile'
 require 'fileutils'
 require_relative './repository_store'
 
-describe Repomate::Infra::Persistence::RepositoryStore do # rubocop:disable Metrics/BlockLength
+describe Repomate::Infra::Persistence::RepositoryStore do
   let(:temp_file) { Tempfile.new('repos') }
   let(:config_file_path) { temp_file.path }
   let(:code_path) { config_file_path }
