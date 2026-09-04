@@ -84,7 +84,7 @@ repomate sync
 # Sync repositories matching a pattern
 repomate sync -p "myproject"
 
-# Sync with a given number of repositories in flight at once (default: 8)
+# Sync with a given number of repositories in flight at once
 repomate sync -j 4
 
 # Add a repository to the sync list
@@ -98,7 +98,7 @@ repomate remove -l "git@github.com:alex-quiterio/repomate.git"
 
 - `-l, --repo-url URL`: Specify a repository URL (for add/remove)
 - `-p, --pattern PATTERN`: Filter repositories by pattern (for sync/list)
-- `-j, --jobs JOBS`: Number of repositories to sync in parallel (for sync, default: 8)
+- `-j, --jobs JOBS`: Number of repositories to sync in parallel (for sync, default: twice the machine's processor count, capped at 16)
 - `-h, --help`: Show help information
 - `-v, --version`: Show version information
 
@@ -118,6 +118,9 @@ The file will be automatically created at `$HOME/code/.subscribed-repos` if it d
 
 - When syncing repositories:
   - Repositories are synced in parallel, up to `--jobs` at a time
+  - Without `--jobs`, the default is twice the machine's processor count, capped at 16:
+    git is mostly network-bound so cores can oversubscribe, but the uplink and the
+    terminal height (one bar per repository in flight) do not grow with the core count
   - Each repository in flight shows its own progress bar, fed by git's own progress output
   - Finished repositories print a single result line above the bars
   - When the output is not a terminal (CI, pipes), only the result lines are printed

@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
+require 'etc'
 require 'optparse'
 
 module Repomate
   module Config
     # Configuration options
     class Configuration
-      DEFAULT_JOBS = 8
+      # Twice the number of processors: git sync is mostly network-bound, so cores can oversubscribe.
+      # Capped because the real limits are the uplink and the terminal height (one progress bar per
+      # repository in flight), neither of which grows with the core count.
+      MAX_DEFAULT_JOBS = 16
+      DEFAULT_JOBS = [Etc.nprocessors * 2, MAX_DEFAULT_JOBS].min
 
       attr_reader :code_path, :config_file_path, :command, :repo_url, :pattern, :jobs
 
