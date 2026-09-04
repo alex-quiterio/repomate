@@ -5,6 +5,7 @@ A command-line tool to manage and synchronize multiple git repositories. This to
 ## Features
 
 - Maintain a list of repositories to sync
+- Parallel syncing, with a live progress bar for every repository in flight
 - Add and remove repositories from the sync list
 - Automatically clone new repositories
 - Update existing repositories
@@ -83,6 +84,9 @@ repomate sync
 # Sync repositories matching a pattern
 repomate sync -p "myproject"
 
+# Sync with a given number of repositories in flight at once (default: 8)
+repomate sync -j 4
+
 # Add a repository to the sync list
 repomate add -l "git@github.com:alex-quiterio/repomate.git"
 
@@ -94,6 +98,7 @@ repomate remove -l "git@github.com:alex-quiterio/repomate.git"
 
 - `-l, --repo-url URL`: Specify a repository URL (for add/remove)
 - `-p, --pattern PATTERN`: Filter repositories by pattern (for sync/list)
+- `-j, --jobs JOBS`: Number of repositories to sync in parallel (for sync, default: 8)
 - `-h, --help`: Show help information
 - `-v, --version`: Show version information
 
@@ -112,6 +117,10 @@ The file will be automatically created at `$HOME/code/.subscribed-repos` if it d
 ## Behavior
 
 - When syncing repositories:
+  - Repositories are synced in parallel, up to `--jobs` at a time
+  - Each repository in flight shows its own progress bar, fed by git's own progress output
+  - Finished repositories print a single result line above the bars
+  - When the output is not a terminal (CI, pipes), only the result lines are printed
   - If a repository doesn't exist locally, it will be cloned
   - If a repository exists locally, it will be updated (git pull)
   - Updates are performed on the default branch (main/master)

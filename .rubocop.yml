@@ -20,6 +20,8 @@ Metrics/MethodLength:
 
 Metrics/BlockLength:
   Max: 50
+  Exclude:
+    - '**/*_spec.rb'
 
 AllCops:
   SuggestExtensions: false
